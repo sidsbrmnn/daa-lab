@@ -33,7 +33,7 @@ public class Hamiltonian {
 
 	void HamiltonianMethod(int k) {
 		while (true) {
-			nextValue(k, g, x, n);
+			nextValue(k);
 			if (x[k] == 0)
 				return;
 			if (k == n) {
@@ -41,23 +41,22 @@ public class Hamiltonian {
 					System.out.print(x[i] + " ");
 				System.out.println(x[1]);
 				found = true;
-				return;
 			} else
 				HamiltonianMethod(k + 1);
 		}
 	}
 
-	void nextValue(int k, int g[][], int x[], int n) {
+	void nextValue(int k) {
 		while (true) {
 			x[k] = (x[k] + 1) % (n + 1);
 			if (x[k] == 0)
 				return;
 			if (g[x[k - 1]][x[k]] != 0) {
-				int j;
-				for (j = 1; j < k; j++)
-					if (x[k] == x[j])
+				int i;
+				for (i = 1; i < k; i++)
+					if (x[k] == x[i])
 						break;
-				if (j == k)
+				if (i == k)
 					if ((k < n) || ((k == n) && g[x[n]][x[1]] != 0))
 						return;
 			}
@@ -68,7 +67,6 @@ public class Hamiltonian {
 		// TODO Auto-generated method stub
 		Hamiltonian hc = new Hamiltonian();
 		hc.getData();
-		System.out.println("Solution:");
 		hc.HamiltonianMethod(2);
 		hc.printNoSolnPossible();
 	}
