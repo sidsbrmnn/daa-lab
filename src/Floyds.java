@@ -1,41 +1,38 @@
 import java.util.Scanner;
 
 public class Floyds {
-	static int n, a[][];
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		read();
-		floyds();
-		print();
-	}
+        System.out.print("Enter no of vertices: ");
+        int n = scanner.nextInt();
 
-	static void read() {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter no of vertices: ");
-		n = sc.nextInt();
-		a = new int[n + 1][n + 1];
-		System.out.println("Enter cost matrix:");
-		for (int i = 1; i <= n; i++)
-			for (int j = 1; j <= n; j++)
-				a[i][j] = sc.nextInt();
-		sc.close();
-	}
+        int[][] costMatrix = new int[n][n];
+        System.out.println("Enter cost matrix:");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                costMatrix[i][j] = scanner.nextInt();
+            }
+        }
 
-	static void floyds() {
-		for (int k = 1; k <= n; k++)
-			for (int i = 1; i <= n; i++)
-				for (int j = 1; j <= n; j++)
-					if (a[i][k] + a[k][j] < a[i][j])
-						a[i][j] = a[i][k] + a[k][j];
-	}
+        for (int i = 0; i < costMatrix.length; i++) {
+            for (int j = 0; j < costMatrix.length; j++) {
+                for (int k = 0; k < costMatrix.length; k++) {
+                    if (costMatrix[j][i] + costMatrix[i][k] < costMatrix[j][k]) {
+                        costMatrix[j][k] = costMatrix[j][i] + costMatrix[i][k];
+                    }
+                }
+            }
+        }
 
-	static void print() {
-		System.out.println("The all pair shortest path matrix is:");
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++)
-				System.out.print(a[i][j] + "\t");
-			System.out.println();
-		}
-	}
+        System.out.println("The all-pairs shortest paths matrix is:");
+        for (int[] row : costMatrix) {
+            for (int item : row) {
+                System.out.print(item + "\t");
+            }
+            System.out.println();
+        }
+
+        scanner.close();
+    }
 }
