@@ -1,59 +1,58 @@
 import java.util.Random;
 
-class SquareThread implements Runnable {
-	int x;
+class Cube implements Runnable {
+    private int value;
 
-	SquareThread(int x) {
-		this.x = x;
-	}
+    public Cube(int value) {
+        this.value = value;
+    }
 
-	@Override
-	public void run() {
-		System.out.println("SquareThread: Square of " + x + " is " + x * x);
-	}
+    @Override
+    public void run() {
+        System.out.println("Cube of " + value + " = " + value * value * value);
+    }
 }
 
-class CubeThread implements Runnable {
-	int x;
+class Square implements Runnable {
+    private int value;
 
-	CubeThread(int x) {
-		this.x = x;
-	}
+    public Square(int value) {
+        this.value = value;
+    }
 
-	@Override
-	public void run() {
-		System.out.println("CubeThread: Cube of " + x + " is " + x * x * x);
-	}
+    @Override
+    public void run() {
+        System.out.println("Square of " + value + " = " + value * value);
+    }
 }
 
-class RandomThread implements Runnable {
-	int x;
+public class MainThread implements Runnable {
+    @Override
+    public void run() {
+        Random random = new Random();
+        Thread cubeThread, squareThread;
 
-	@Override
-	public void run() {
-		Random r = new Random();
-		Thread t2, t3;
-		try {
-			while (true) {
-				x = r.nextInt(100);
-				System.out.println("MainThread: Generated number is " + x);
-				t2 = new Thread(new SquareThread(x));
-				t2.start();
-				t3 = new Thread(new CubeThread(x));
-				t3.start();
-				Thread.sleep(1000);
-				System.out.println("**********************************");
-			}
-		} catch (Exception e) {
-			System.out.println("EXCEPTION CAUGHT");
-		}
-	}
-}
+        while (true) {
+            int value = random.nextInt(100);
 
-public class MainThread {
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Thread t1 = new Thread(new RandomThread());
-		t1.start();
-	}
+            squareThread = new Thread(new Square(value));
+            squareThread.start();
+
+            cubeThread = new Thread(new Cube(value));
+            cubeThread.start();
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("\n*******************");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread thread = new Thread(new MainThread());
+        thread.start();
+    }
 }
