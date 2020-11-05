@@ -1,38 +1,42 @@
 import java.util.Scanner;
 
 public class Student {
-	String usn, name, branch, phone;
+    private String usn, name, branch, phone;
 
-	void read() {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter USN: ");
-		usn = sc.nextLine();
-		System.out.print("Enter name: ");
-		name = sc.nextLine();
-		System.out.print("Enter branch: ");
-		branch = sc.nextLine();
-		System.out.print("Enter phone: ");
-		phone = sc.nextLine();
-		sc.close();
-	}
+    public void read() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter USN: ");
+        usn = scanner.nextLine();
+        System.out.print("Enter name: ");
+        name = scanner.nextLine();
+        System.out.print("Enter branch: ");
+        branch = scanner.nextLine();
+        System.out.print("Enter phone number: ");
+        phone = scanner.nextLine();
+        scanner.close();
+    }
 
-	void display() {
-		System.out.printf("%-20s%-20s%-20s%-20s\n", usn, name, branch, phone);
-	}
+    public void display() {
+        System.out.printf("%-20s%-20s%-20s%-20s\n", usn, name, branch, phone);
+    }
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter number of students: ");
-		int n = sc.nextInt();
-		Student s[] = new Student[n];
-		for (int i = 0; i < n; i++) {
-			s[i] = new Student();
-			s[i].read();
-		}
-		System.out.printf("%-20s%-20s%-20s%-20s\n", "USN", "Name", "Branch", "Phone");
-		for (int i = 0; i < n; i++)
-			s[i].display();
-		sc.close();
-	}
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter no of students: ");
+        int n = scanner.nextInt();
+
+        Student[] students = new Student[n];
+        for (int i = 0; i < n; i++) {
+            students[i] = new Student();
+            students[i].read();
+        }
+
+        System.out.printf("%-20s%-20s%-20s%-20s\n", "USN", "Name", "Branch", "Phone Number");
+        for (Student student : students) {
+            student.display();
+        }
+
+        scanner.close();
+    }
 }
