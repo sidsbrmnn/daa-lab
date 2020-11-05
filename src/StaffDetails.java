@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 class Staff {
     protected Scanner scanner;
-    private String id, name, phone, salary;
+    protected String id, name, phone, salary;
 
     public Staff() {
         scanner = new Scanner(System.in);
@@ -28,7 +28,7 @@ class Staff {
 }
 
 class Teaching extends Staff {
-    String domain, publications;
+    private String domain, publications;
 
     @Override
     public void read() {
@@ -48,7 +48,7 @@ class Teaching extends Staff {
 }
 
 class Technical extends Staff {
-    String skill;
+    private String skill;
 
     @Override
     public void read() {
@@ -65,7 +65,7 @@ class Technical extends Staff {
 }
 
 class Contract extends Staff {
-    String period;
+    private String period;
 
     @Override
     public void read() {
