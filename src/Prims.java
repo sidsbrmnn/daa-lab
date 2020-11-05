@@ -1,52 +1,58 @@
 import java.util.Scanner;
 
 public class Prims {
-	static int n, cost[][];
-	static Scanner sc = new Scanner(System.in);
+    private static int calculateMinCost(int[][] costMatrix) {
+        boolean[] visited = new boolean[costMatrix.length];
+        int edgeCount = 1, minCost = 0;
+        visited[0] = true;
 
-	public static void main(String[] args) {
-		read();
-		prims();
-	}
+        while (edgeCount < visited.length) {
+            int a = 0, b = 0, u = 0, v = 0, min = Integer.MAX_VALUE;
+            for (int i = 0; i < visited.length; i++) {
+                for (int j = 0; j < visited.length; j++) {
+                    if (costMatrix[i][j] < min) {
+                        if (visited[i]) {
+                            min = costMatrix[i][j];
+                            a = u = i;
+                            b = v = j;
+                        }
+                    }
+                }
+            }
 
-	static void read() {
-		int i, j;
-		System.out.print("Enter number of vertices: ");
-		n = sc.nextInt();
-		cost = new int[n + 1][n + 1];
-		System.out.println("Enter the adjaceny matrix:");
-		for (i = 1; i <= n; i++)
-			for (j = 1; j <= n; j++) {
-				cost[i][j] = sc.nextInt();
-				if (cost[i][j] == 0)
-					cost[i][j] = 999;
-			}
-	}
+            if (!visited[u] || !visited[v]) {
+                System.out.println("Edge: " + edgeCount++ + " (" + (a + 1) + ", " + (b + 1) + ") => " + min);
+                minCost += min;
+                visited[b] = true;
+            }
 
-	static void prims() {
-		int visited[] = new int[n + 1];
-		int a = 0, b = 0, u = 0, v = 0, i, j, ne = 1, min, mincost = 0;
-		visited[1] = 1;
-		System.out.println("The edges of the minimum spanning tree are:");
-		while (ne < n) {
-			for (i = 1, min = 999; i <= n; i++) {
-				for (j = 1; j <= n; j++) {
-					if (cost[i][j] < min) {
-						if (visited[i] != 0) {
-							min = cost[i][j];
-							a = u = i;
-							b = v = j;
-						}
-					}
-				}
-			}
-			if (visited[u] == 0 || visited[v] == 0) {
-				System.out.println("Edge: " + ne++ + " (" + a + ", " + b + ") => Cost: " + min);
-				mincost += min;
-				visited[b] = 1;
-			}
-			cost[a][b] = cost[b][a] = 999;
-		}
-		System.out.println("Minimum cost: " + mincost);
-	}
+            costMatrix[a][b] = costMatrix[b][a] = Integer.MAX_VALUE;
+        }
+
+        return minCost;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter no of vertices: ");
+        int n = scanner.nextInt();
+
+        int[][] costMatrix = new int[n][n];
+        System.out.println("Enter adjacency matrix:");
+        for (int i = 0; i < costMatrix.length; i++) {
+            for (int j = 0; j < costMatrix.length; j++) {
+                costMatrix[i][j] = scanner.nextInt();
+                if (costMatrix[i][j] == 0) {
+                    costMatrix[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
+
+        System.out.println();
+        int minCost = calculateMinCost(costMatrix);
+        System.out.println("Minimum cost: " + minCost);
+
+        scanner.close();
+    }
 }
