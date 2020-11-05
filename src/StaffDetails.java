@@ -1,122 +1,127 @@
 import java.util.Scanner;
 
 class Staff {
-	String staffId, name, phone, salary;
-	Scanner sc = new Scanner(System.in);
+    protected Scanner scanner;
+    private String id, name, phone, salary;
 
-	void read() {
-		System.out.print("Enter staff ID: ");
-		staffId = sc.nextLine();
-		System.out.print("Enter name: ");
-		name = sc.nextLine();
-		System.out.print("Enter phone: ");
-		phone = sc.nextLine();
-		System.out.print("Enter salary: ");
-		salary = sc.nextLine();
-	}
+    public Staff() {
+        scanner = new Scanner(System.in);
+    }
 
-	void display() {
-		System.out.printf("\n%-15s%-15s\n", "Staff ID: ", staffId);
-		System.out.printf("%-15s%-15s\n", "Name: ", name);
-		System.out.printf("%-15s%-15s\n", "Phone: ", phone);
-		System.out.printf("%-15s%-15s\n", "Salary: ", salary);
-	}
+    public void read() {
+        System.out.print("Enter staff ID: ");
+        id = scanner.nextLine();
+        System.out.print("Enter name: ");
+        name = scanner.nextLine();
+        System.out.print("Enter phone: ");
+        phone = scanner.nextLine();
+        System.out.print("Enter salary: ");
+        salary = scanner.nextLine();
+    }
+
+    public void display() {
+        System.out.printf("\n%-15s%-15s\n", "Staff ID: ", id);
+        System.out.printf("%-15s%-15s\n", "Name: ", name);
+        System.out.printf("%-15s%-15s\n", "Phone: ", phone);
+        System.out.printf("%-15s%-15s\n", "Salary: ", salary);
+    }
 }
 
 class Teaching extends Staff {
-	String domain, pub;
+    String domain, publications;
 
-	@Override
-	void read() {
-		super.read();
-		System.out.print("Enter domain: ");
-		domain = sc.nextLine();
-		System.out.print("Enter publication: ");
-		pub = sc.nextLine();
-	}
+    @Override
+    public void read() {
+        super.read();
+        System.out.print("Enter domain: ");
+        domain = scanner.nextLine();
+        System.out.print("Enter publications: ");
+        publications = scanner.nextLine();
+    }
 
-	@Override
-	void display() {
-		super.display();
-		System.out.printf("%-15s%-15s\n", "Domain: ", domain);
-		System.out.printf("%-15s%-15s\n", "Publication: ", pub);
-	}
+    @Override
+    public void display() {
+        super.display();
+        System.out.printf("%-15s%-15s\n", "Domain: ", domain);
+        System.out.printf("%-15s%-15s\n", "Publications: ", publications);
+    }
 }
 
 class Technical extends Staff {
-	String skill;
+    String skill;
 
-	@Override
-	void read() {
-		super.read();
-		System.out.print("Enter skill: ");
-		skill = sc.nextLine();
-	}
+    @Override
+    public void read() {
+        super.read();
+        System.out.print("Enter skill: ");
+        skill = scanner.nextLine();
+    }
 
-	@Override
-	void display() {
-		super.display();
-		System.out.printf("%-15s%-15s\n", "Skill: ", skill);
-	}
+    @Override
+    public void display() {
+        super.display();
+        System.out.printf("%-15s%-15s\n", "Skill: ", skill);
+    }
 }
 
 class Contract extends Staff {
-	String period;
+    String period;
 
-	@Override
-	void read() {
-		super.read();
-		System.out.println("Enter period: ");
-		period = sc.nextLine();
-	}
+    @Override
+    public void read() {
+        super.read();
+        System.out.println("Enter period: ");
+        period = scanner.nextLine();
+    }
 
-	@Override
-	void display() {
-		super.display();
-		System.out.printf("%-15s%-15s\n", "Period: ", period);
-	}
+    @Override
+    public void display() {
+        super.display();
+        System.out.printf("%-15s%-15s\n", "Period: ", period);
+    }
 }
 
 public class StaffDetails {
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter number of staff: ");
-		int n = sc.nextInt();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-		Teaching teaching[] = new Teaching[n];
-		Technical technical[] = new Technical[n];
-		Contract contract[] = new Contract[n];
+        System.out.print("Enter no of teaching staff: ");
+        Teaching[] teachings = new Teaching[scanner.nextInt()];
+        for (Teaching teaching : teachings) {
+            System.out.println("Enter teaching staff details:");
+            teaching = new Teaching();
+            teaching.read();
+        }
 
-		for (int i = 0; i < n; i++) {
-			System.out.println("Enter teaching staff details:");
-			teaching[i] = new Teaching();
-			teaching[i].read();
-		}
+        System.out.print("Enter no of technical staff: ");
+        Technical[] technicals = new Technical[scanner.nextInt()];
+        for (Technical technical : technicals) {
+            System.out.println("Enter technical staff details:");
+            technical = new Technical();
+            technical.read();
+        }
 
-		for (int i = 0; i < n; i++) {
-			System.out.println("Enter technical staff details:");
-			technical[i] = new Technical();
-			technical[i].read();
-		}
+        System.out.print("Enter no of contract staff: ");
+        Contract[] contracts = new Contract[scanner.nextInt()];
+        for (Contract contract : contracts) {
+            System.out.println("Enter contract staff details:");
+            contract = new Contract();
+            contract.read();
+        }
 
-		for (int i = 0; i < n; i++) {
-			System.out.println("Enter contract staff details:");
-			contract[i] = new Contract();
-			contract[i].read();
-		}
+        System.out.println("\nTEACHING STAFFS");
+        for (Teaching teaching : teachings) {
+            teaching.display();
+        }
+        System.out.println("\nTECHNICAL STAFFS");
+        for (Technical technical : technicals) {
+            technical.display();
+        }
+        System.out.println("\nCONTRACT STAFFS");
+        for (Contract contract : contracts) {
+            contract.display();
+        }
 
-		System.out.println("\nSTAFF DETAILS");
-		System.out.println("\nTEACHING STAFFS");
-		for (int i = 0; i < n; i++)
-			teaching[i].display();
-		System.out.println("\nTECHNICAL STAFFS");
-		for (int i = 0; i < n; i++)
-			technical[i].display();
-		System.out.println("\nCONTRACT STAFFS");
-		for (int i = 0; i < n; i++)
-			contract[i].display();
-
-		sc.close();
-	}
+        scanner.close();
+    }
 }
