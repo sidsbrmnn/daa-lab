@@ -2,54 +2,51 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class QuickSort {
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
-		Random r = new Random();
-		System.out.print("Enter no of elements: ");
-		int n = sc.nextInt();
-		int a[] = new int[n];
-		System.out.print("Array has:");
-		for (int i = 0; i < n; i++) {
-			a[i] = r.nextInt(1000);
-			System.out.print(" " + a[i]);
-		}
-		long start = System.nanoTime();
-		sort(a, 0, n - 1);
-		long stop = System.nanoTime();
-		System.out.print("\nSORTED ARRAY:");
-		for (int i = 0; i < n; i++)
-			System.out.print(" " + a[i]);
-		System.out.println("\nTime taken to sort: " + (stop - start));
-		sc.close();
-	}
+    private static int partition(int[] arr, int low, int high) {
+        int i = low, j = high, pivot = arr[low];
+        while (i < j) {
+            while (arr[i] <= pivot) {
+                i++;
+            }
+            while (arr[j] > pivot) {
+                j--;
+            }
+            if (i < j) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
 
-	static void sort(int a[], int low, int high) {
-		if (low < high) {
-			int pi = partition(a, low, high);
-			sort(a, low, pi - 1);
-			sort(a, pi + 1, high);
-		}
-	}
+        return j;
+    }
 
-	static int partition(int a[], int low, int high) {
-		int i = low, j = high, pivot = a[low];
-		while (i < j) {
-			while (a[i] <= pivot)
-				i++;
-			while (a[j] > pivot)
-				j--;
-			if (i < j)
-				swap(a, i, j);
-		}
-		a[low] = a[j];
-		a[j] = pivot;
-		return j;
-	}
+    private static void sort(int[] arr, int low, int high) {
+        if (low < high) {
+            int index = partition(arr, low, high);
+            sort(arr, low, index - 1);
+            sort(arr, index + 1, high);
+        }
+    }
 
-	static void swap(int a[], int i, int j) {
-		int temp = a[i];
-		a[i] = a[j];
-		a[j] = temp;
-	}
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        System.out.print("Enter no of elements: ");
+        int n = scanner.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = random.nextInt(1000);
+        }
+
+        long startTime = System.nanoTime();
+        sort(arr, 0, n - 1);
+        long stopTime = System.nanoTime();
+
+        System.out.println("Time taken to sort: " + (stopTime - startTime));
+
+        scanner.close();
+    }
 }
