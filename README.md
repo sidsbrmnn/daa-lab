@@ -26,7 +26,7 @@
 
 8. Find the minimum cost spanning tree of a given connected undirected graph using [`Kruskal's`](src/Kruskals.java) algorithm. Use Union-Find algorithms in your program.
 
-9. Find the minimum cost spanning tree of a given connected undirected graph using [`Prim's`](src/Prims.java) algorithm.
+9. Find the minimum cost spanning tree of a given connected undirected graph using [`Prim's`](src/MinimumSpanningTree.java) algorithm.
 
 10. Write Java programs to
     1. Implement all-pair shortest path problem using [`Floyd's`](src/AllPairShortestPath.java) algorithm.
