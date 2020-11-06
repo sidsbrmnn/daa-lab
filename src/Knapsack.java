@@ -61,22 +61,6 @@ public class Knapsack {
         }
     }
 
-    public void greedyMethod() {
-        int capacity = maxCapacity, profit = 0;
-        Arrays.sort(items, new RatioComparator());
-
-        for (Item item : items) {
-            if (item.getWeight() > capacity) {
-                break;
-            } else {
-                profit += item.getProfit();
-                capacity -= item.getWeight();
-            }
-        }
-
-        System.out.println("Total profit: " + profit);
-    }
-
     public void dynamicProgramming() {
         int[][] keep = new int[items.length + 1][maxCapacity + 1];
 
@@ -96,6 +80,22 @@ public class Knapsack {
         System.out.println("Total profit: " + keep[items.length][maxCapacity]);
     }
 
+    public void greedyMethod() {
+        int capacity = maxCapacity, profit = 0;
+        Arrays.sort(items, new RatioComparator());
+
+        for (Item item : items) {
+            if (item.getWeight() > capacity) {
+                break;
+            } else {
+                profit += item.getProfit();
+                capacity -= item.getWeight();
+            }
+        }
+
+        System.out.println("Total profit: " + profit);
+    }
+
     public static void main(String[] args) {
         System.out.print("Enter no of items: ");
         int count = scanner.nextInt();
@@ -105,16 +105,16 @@ public class Knapsack {
         Knapsack knapsack = new Knapsack(count, capacity);
         knapsack.readItems();
 
-        System.out.println("\n1. Greedy method\n2. Dynamic programming");
+        System.out.println("\n1. Dynamic programming\n2. Greedy method");
         System.out.print("\nEnter your choice: ");
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
-                knapsack.greedyMethod();
+                knapsack.dynamicProgramming();
                 break;
 
             case 2:
-                knapsack.dynamicProgramming();
+                knapsack.greedyMethod();
                 break;
 
             default:
