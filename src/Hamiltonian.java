@@ -53,6 +53,11 @@ public class Hamiltonian {
         return false;
     }
 
+    /**
+     * A utility function to print the solution.
+     *
+     * @param path
+     */
     private void printSolution(int[] path) {
         System.out.println("\nSolution exists.");
         for (int v : path) {
