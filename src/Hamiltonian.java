@@ -1,73 +1,111 @@
 import java.util.Scanner;
 
 public class Hamiltonian {
-	boolean found = false;
-	int g[][], x[], n;
+    /**
+     * A utility function to check if the vertex v can be added at index 'pos' in
+     * the Hamiltonian Cycle constructed so far (stored in path[])
+     *
+     * @param v
+     * @param graph
+     * @param path
+     * @param pos
+     * @return
+     */
+    private boolean isSafe(int v, int[][] graph, int[] path, int pos) {
+        if (graph[path[pos - 1]][v] == 0) {
+            return false;
+        }
 
-	void getData() {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter no of vertices: ");
-		n = sc.nextInt();
-		g = new int[n + 1][n + 1];
-		x = new int[n + 1];
-		System.out.println("If there's an edge between the following vertices then enter 1, else 0.");
-		for (int i = 1; i <= n; i++)
-			for (int j = i; j <= n; j++) {
-				if (i == j) {
-					g[i][j] = 0;
-					continue;
-				}
-				System.out.print(i + " and " + j + ": ");
-				g[i][j] = g[j][i] = sc.nextInt();
-			}
-		for (int i = 1; i <= n; i++)
-			x[i] = 0;
-		x[1] = 1;
-		sc.close();
-	}
+        for (int i = 0; i < pos; i++) {
+            if (path[i] == v) {
+                return false;
+            }
+        }
 
-	void printNoSolnPossible() {
-		if (found == false)
-			System.out.println("No solution possible.");
-	}
+        return true;
+    }
 
-	void HamiltonianMethod(int k) {
-		while (true) {
-			nextValue(k);
-			if (x[k] == 0)
-				return;
-			if (k == n) {
-				for (int i = 1; i <= k; i++)
-					System.out.print(x[i] + " ");
-				System.out.println(x[1]);
-				found = true;
-			} else
-				HamiltonianMethod(k + 1);
-		}
-	}
+    /**
+     * A recursive utility function to solve hamiltonian cycle problem.
+     *
+     * @param graph
+     * @param path
+     * @param pos
+     * @return
+     */
+    private boolean hamCycleUtil(int[][] graph, int[] path, int pos) {
+        if (pos == graph.length) {
+            return graph[path[pos - 1]][path[0]] == 1;
+        }
 
-	void nextValue(int k) {
-		while (true) {
-			x[k] = (x[k] + 1) % (n + 1);
-			if (x[k] == 0)
-				return;
-			if (g[x[k - 1]][x[k]] != 0) {
-				int i;
-				for (i = 1; i < k; i++)
-					if (x[k] == x[i])
-						break;
-				if (i == k)
-					if ((k < n) || ((k == n) && g[x[n]][x[1]] != 0))
-						return;
-			}
-		}
-	}
+        for (int v = 1; v < graph.length; v++) {
+            if (isSafe(v, graph, path, pos)) {
+                path[pos] = v;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Hamiltonian hc = new Hamiltonian();
-		hc.getData();
-		hc.HamiltonianMethod(2);
-		hc.printNoSolnPossible();
-	}
+                if (hamCycleUtil(graph, path, pos + 1)) {
+                    return true;
+                }
+
+                path[pos] = -1;
+            }
+        }
+
+        return false;
+    }
+
+    private void printSolution(int[] path) {
+        System.out.println("\nSolution exists.");
+        for (int v : path) {
+            System.out.print(v + " -> ");
+        }
+        System.out.println(path[0]);
+    }
+
+    /**
+     * This function solves the Hamiltonian Cycle problem using Backtracking. It
+     * mainly uses hamCycleUtil() to solve the problem. It returns false if there is
+     * no Hamiltonian Cycle possible, otherwise return true and prints the path.
+     * Please note that there may be more than one solutions, this function prints
+     * one of the feasible solutions.
+     *
+     * @param graph
+     */
+    public void hamCycle(int[][] graph) {
+        int[] path = new int[graph.length];
+        for (int i = 1; i < path.length; i++) {
+            path[i] = -1;
+        }
+
+        if (hamCycleUtil(graph, path, 1)) {
+            printSolution(path);
+        } else {
+            System.out.println("\nSolution does not exist.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter no of vertices: ");
+        int n = scanner.nextInt();
+
+        int[][] graph = new int[n][n];
+        System.out.println("If there's an edge between the following vertices, enter 1 else 0.");
+        for (int i = 0; i < graph.length; i++) {
+            for (int j = i; j < graph.length; j++) {
+                if (i == j) {
+                    graph[i][j] = 0;
+                    continue;
+                }
+
+                System.out.print(i + " and " + j + ": ");
+                graph[i][j] = graph[j][i] = scanner.nextInt();
+            }
+        }
+
+        Hamiltonian hamiltonian = new Hamiltonian();
+        hamiltonian.hamCycle(graph);
+
+        scanner.close();
+    }
 }
