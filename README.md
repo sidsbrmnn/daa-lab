@@ -22,7 +22,7 @@
     1. Dynamic programming
     2. Greedy method
 
-7. From a given vertex in a weighted connected graph, find shortest paths to other vertices using [`Dijkstra's`](src/Dijkstras.java) algorithm. Write the program in Java.
+7. From a given vertex in a weighted connected graph, find shortest paths to other vertices using [`Dijkstra's`](src/ShortestPath.java) algorithm. Write the program in Java.
 
 8. Find the minimum cost spanning tree of a given connected undirected graph using [`Kruskal's`](src/Kruskals.java) algorithm. Use Union-Find algorithms in your program.
 
